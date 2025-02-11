@@ -28,6 +28,13 @@ async def youtube_dl_call_back(bot, update):
     except Exception:
         await update.message.delete(True)
         return
+
+    # Check if reply_to_message exists
+    if not update.message.reply_to_message:
+        await update.answer("Original message not found.", show_alert=True)
+        await update.message.delete(True)
+        return
+
     youtube_dl_url = update.message.reply_to_message.text
     custom_file_name = str(response_json.get("title"))[:50] + "_" + youtube_dl_format
     youtube_dl_username = None
